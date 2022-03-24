@@ -1,0 +1,15 @@
+{
+  "name": "decision-matrix",
+  "version": "1.0.0",
+  "description": "A tool to help you choose one from many options",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jake Franklin <jakofranko@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "macian": "^1.0.3",
+    "mithril": "^2.0.4"
+  }
+}
