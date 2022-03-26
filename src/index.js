@@ -37,10 +37,11 @@ let problem = "";
 function Option(name) {
     this.name = name;
     this.ranks = [];
-    this.addRank = ({ criteriaIndex, rankValue }) => {
+    this.addRank = (criteriaIndex, rankValue) => {
         const rank = new Rank(criteriaIndex, rankValue);
         this.ranks.push(rank);
     };
+    this.toString = () => this.name;
 
     return this;
 }
@@ -64,7 +65,7 @@ function Rank(criteriaIndex, rankValue) {
 
 // This will be this list of potential options e.g., "McDonald's, Chick-Fil-A, Pei Wei, Habit"
 // An option needs to have a name and a rank for each criteria.
-const options = [];
+const options = [new Option('wendys'), new Option('taco bell')];
 
 
 /**
@@ -83,13 +84,14 @@ function Criteria(name, weight = 1) {
     this.weight = weight;
     this.setWeight = (weight) => {
         this.weight = weight;
-    }
+    };
+    this.toString = () => this.name;
 
     return this;
 }
 
 // This is the list of Criteria, and the order is important, since the Rank will reference the index of this array
-const criteria = [];
+const criteria = [new Criteria('wait time'), new Criteria('deliciousness')];
 
 const root = document.createElement('div');
 root.id = 'root';
@@ -192,10 +194,10 @@ const thirdScreen = {
             m('hr.mv4'),
             m('div.r', [
                 m('div.c4.c4-m', [
-                    m('label[for=option]', 'List the criteria for evaluating an option:'),
+                    m('label[for=criteria]', 'List the criteria for evaluating an option:'),
                     m('br'),
                     m('input', {
-                        id: 'option',
+                        id: 'criteria',
                         type: 'text',
                         placeholder: 'e.g., "Wait Time"',
                         autofocus: true,
@@ -235,23 +237,33 @@ const fourthScreen = {
         vnode.state.criteriaIterator = criteria.values();
         vnode.state.lastOption = vnode.state.optionsIterator.next();
         vnode.state.lastCriteria = vnode.state.criteriaIterator.next();
+        console.log(vnode.state);
     },
     optionsIterator: null,
     lastOption: null,
     criteriaIterator: null,
     lastCriteria: null,
+    currentRank: null,
+    currentCriteriaIndex: 0,
     nextOption: (vnode) => {
         const { optionsIterator, lastOption } = vnode.state;
 
         if (optionsIterator === null) {
             console.log('no options!');
         } else if (lastOption !== null && !lastOption.done) {
-            lastOption = optionsIterator.next();
-        } else if (lastOption.done) {
-            console.log('render matrix');
+            vnode.state.lastOption = optionsIterator.next();
+
+            if (vnode.state.lastOption.done) {
+                console.log('render matrix');
+                m.route.set('/matrix');
+            }
         }
+
+        m.redraw();
     },
     nextCriteria: (vnode) => {
+        // Only for reading and executing,
+        // write to vnode.state directly.
         const {
             criteriaIterator,
             lastCriteria,
@@ -261,53 +273,87 @@ const fourthScreen = {
         if (criteriaIterator === null) {
             console.log('no criteria!');
         } else if (lastCriteria !== null && !lastCriteria.done) {
-            lastCriteria = criteriaIterator.next();
-        } else if (lastCriteria.done) {
-            console.log('reloading criteria');
-            criteriaIterator = criteria.values();
-            nextOption(vnode);
+            vnode.state.lastCriteria = criteriaIterator.next();
+            vnode.state.currentCriteriaIndex++;
+
+            if (vnode.state.lastCriteria.done) {
+                console.log('reloading criteria');
+                vnode.state.criteriaIterator = criteria.values();
+                vnode.state.lastCriteria = vnode.state.criteriaIterator.next();
+                vnode.state.currentCriteriaIndex = 0;
+                nextOption(vnode);
+            }
         }
+
+        m.redraw();
     },
     view: (vnode) => {
+        console.log('vnode state', vnode.state);
+        const {
+            lastOption: { value: optionValue } = {},
+            lastCriteria: { value: criteriaValue } = {},
+            nextCriteria
+        } = vnode.state;
         return m('#fourth-screen', [
             m('h1.lhs', 'This is the fourth screen!'),
             m('hr.mv4'),
             m('div.r', [
                 m('div.c4.c4-m', [
-                    m('label[for=option]', 'List the possible options or solutions:'),
+                    m('label[for=rank]', 'Rank this option according to the criteria:'),
                     m('br'),
-                    m('input', {
-                        id: 'option',
+                    m('span.mr4', `${optionValue} ${criteriaValue}`),
+                    m('input.mr4', {
+                        id: 'rank',
                         type: 'number',
                         min: 1,
                         max: 3,
-                        placeholder: 'What\'s the problem?',
+                        placeholder: '1 to 3',
                         autofocus: true,
                         oninput: (e) => {
-                            vnode.state.currentOption = e.target.value;
-                        },
-                        onkeydown: (e) => {
-                            console.log(e);
-                            if (e.key == 'Enter') {
-                                console.log(vnode.state.currentOption);
-                                const newOption = new Option(vnode.state.currentOption);
-                                options.push(newOption);
-                                e.target.value = '';
-                            }
+                            vnode.state.currentRank = e.target.value;
                         }
                     }),
+                    m('button[type=button]', {
+                        onclick: (e) => {
+                            const {
+                                currentCriteriaIndex,
+                                currentRank,
+                                lastOption
+                            } = vnode.state;
+
+                            optionValue.addRank(currentCriteriaIndex, currentRank);
+                            console.log(options);
+                            nextCriteria(vnode);
+                        },
+                        class: 'mv3 p4'
+                    }, `Assign ${optionValue} criteria ranking`)
                 ]),
                 m('div.c4.c4-m', [
                     m(m.route.Link, {
                         selector: 'button[type=button]',
-                        href: '/step-3',
+                        href: '/step-1',
                         class: 'mh3 p3'
                     }, 'Next')
                 ])
-            ]),
-            m('div.options', options.map((option) => {
-                return m('p', option.name);
-            }))
+            ])
+        ]);
+    }
+}
+
+const matrix = {
+    view: () => {
+        return m('div#matrix', [
+            m('h1.lhs', 'MATRIX'),
+            m('table', [
+                m('caption', problem),
+                m('thead', criteria.map(c => m('th', c.name))),
+                m('tbody', options.map(p => {
+                    return m('tr', p.ranks.map(r => {
+                        const thisCriteria = criteria[r.criteriaIndex];
+                        return m('td', `${thisCriteria.name}: ${r.rankValue} * ${thisCriteria.weight} = ${r.rankValue * thisCriteria.weight}`)
+                    }));
+                }))
+            ])
         ]);
     }
 }
@@ -316,5 +362,6 @@ m.route(root, '/step-1', {
     '/step-1': firstScreen,
     '/step-2': secondScreen,
     '/step-3': thirdScreen,
-    '/step-4': fourthScreen
+    '/step-4': fourthScreen,
+    '/matrix': matrix
 });
