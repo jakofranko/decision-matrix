@@ -1,16 +1,16 @@
 import m from 'mithril';
+import Navigation from './Navigation';
 import Option from '../models/option';
 
 export default function SecondScreen() {
     return {
-        oninit: () => {
-            console.log('second screen initialized')
+        oncreate: ({ dom }) => {
+            const input = dom.querySelector('#option');
+            input.focus();
         },
         currentOption: null,
         view: ({ attrs: { state, actions } }) => {
             return m('#second-screen', [
-                m('h1.lhs', 'This is the second screen!'),
-                m('hr.mv4'),
                 m('div.r', [
                     m('div.c4.c4-m', [
                         m('label[for=option]', 'List the possible options or solutions:'),
@@ -19,14 +19,11 @@ export default function SecondScreen() {
                             id: 'option',
                             type: 'text',
                             placeholder: 'e.g., "Taco Bell"',
-                            autofocus: true,
                             oninput: (e) => {
                                 this.currentOption = e.target.value;
                             },
                             onkeydown: (e) => {
-                                console.log(e);
                                 if (e.key == 'Enter' && this.currentOption && this.currentOption.length) {
-                                    console.log(this.currentOption);
                                     const newOption = new Option(this.currentOption);
                                     actions.addOption(newOption);
                                     e.target.value = '';
@@ -36,16 +33,13 @@ export default function SecondScreen() {
                         }),
                     ]),
                     m('div.c4.c4-m', [
-                        m(m.route.Link, {
-                            selector: 'button[type=button]',
-                            href: '/step-3',
-                            class: 'mh3 p3'
-                        }, 'Next')
+                        m('h3', 'Potential Solutions:'),
+                        m('ul', state.options.map((option) => {
+                            return m('li', option.name);
+                        }))
                     ])
                 ]),
-                m('div.options', state.options.map((option) => {
-                    return m('p', option.name);
-                }))
+                m(Navigation, { nextCondition: () => state.options.length }),
             ]);
         }
     }

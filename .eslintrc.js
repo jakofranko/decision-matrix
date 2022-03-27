@@ -14,5 +14,6 @@ module.exports = {
         "__dirname": "readonly"
     },
     "rules": {
+        "no-console": "warn"
     }
 }

@@ -1,4 +1,5 @@
 import m from 'mithril';
+import Navigation from './Navigation';
 
 export default function MatrixScreen() {
     return {
@@ -20,8 +21,8 @@ export default function MatrixScreen() {
         },
         view: ({ attrs: { state }}) => {
             return m('div#matrix', [
-                m('h1.lhs', 'MATRIX'),
-                m('table', [
+                m('h1.lhs.mb3', 'MATRIX'),
+                m('table.mb3', [
                     m('caption', state.problem),
                     m('thead', [
                         m('th'),
@@ -41,7 +42,8 @@ export default function MatrixScreen() {
                             }, 0))
                         ]);
                     }))
-                ])
+                ]),
+                m(Navigation)
             ]);
         }
     }
