@@ -18,350 +18,71 @@
 // 3. define UI flow
 // 4. implement UI
 // 5. implement the 10 point weighting method for criteria
+// 6. enable localStorage for data caching
+// 7. implement multiple decision matrixes
+// 8. Allow editing of decision matrixes
 import m from 'mithril';
 import 'macian';
 
-// This will be the overarching problem-to-solve e.g., "Need to decide where to get dinner"
-let problem = "";
+import FirstScreen from './views/FirstScreen';
+import SecondScreen from './views/SecondScreen';
+import ThirdScreen from './views/ThirdScreen';
+import FourthScreen from './views/FourthScreen';
+import MatrixScreen from './views/MatrixScreen';
 
-/**
- * Option - An option or facet for solving the main problem.
- *
- * @constructor
- * @param    {string}   name    The name of the option
- * @property {string}   name    The name of the option
- * @property {array}    ranks   An array of Ranks
- * @property {function} addRank Adds a Rank to the ranks property
- * @returns  {Object}           The Option
- */
-function Option(name) {
-    this.name = name;
-    this.ranks = [];
-    this.addRank = (criteriaIndex, rankValue) => {
-        const rank = new Rank(criteriaIndex, rankValue);
-        this.ranks.push(rank);
-    };
-    this.toString = () => this.name;
+// import Option from './models/option';
+// import Criteria from './models/criteria';
 
-    return this;
-}
+// Killer article on the topic of Mithril state management:
+// https://kevinfiol.com/blog/simple-state-management-in-mithriljs/
+const state = {
+    // This will be the overarching problem-to-solve e.g., "Need to decide where to get dinner"
+    problem: "",
 
+    // This will be this list of potential options e.g., "McDonald's, Chick-Fil-A, Pei Wei, Habit"
+    // An option needs to have a name and a rank for each criteria.
+    options: [
+        // new Option('Wendy\'s').addRank(0, 2).addRank(1, 2).addRank(2, 2),
+        // new Option('McDonalds').addRank(0, 2).addRank(1, 1).addRank(2, 3),
+        // new Option('Taco Bell').addRank(0, 3).addRank(1, 3).addRank(2, 2),
+    ],
 
-/**
- * Rank - A Rank for an option, assigned like `optionVariable.addRank(rank);`
- *
- * @param    {number} criteriaIndex The index of the Criteria in the `criteria` array.
- * @param    {number} rankValue     A numerical value ranking the Option according to the criteria
- * @property {number} criteriaIndex
- * @property {number} rankValue
- * @returns  {Object}               This Rank
- */
-function Rank(criteriaIndex, rankValue) {
-    this.criteriaIndex = criteriaIndex;
-    this.rankValue = rankValue;
+    // This is the list of Criteria, and the order is important, since the Rank will reference the index of this array
+    criteria: [
+        // new Criteria('Deliciousness', 3),
+        // new Criteria('Wait Time', 1),
+        // new Criteria('Healthiness', 2)
+    ],
+};
 
-    return this;
-}
-
-// This will be this list of potential options e.g., "McDonald's, Chick-Fil-A, Pei Wei, Habit"
-// An option needs to have a name and a rank for each criteria.
-const options = [new Option('wendys'), new Option('taco bell')];
-
-
-/**
- * Criteria - A metric to evaluate against an option, like "ease of implementation" or "wait time".
- *
- * @param    {string} name       Name of the criteria e.g., "wait time"
- * @param    {number} weight = 1 How important this criteria is when evaluating an option
- *                               e.g., how important is the wait time length to this decision?
- * @property {string} name
- * @property {number} weight
- * @property {func}   setWeight  Set the `weight` property
- * @returns  {Object}            This Criteria.
- */
-function Criteria(name, weight = 1) {
-    this.name = name;
-    this.weight = weight;
-    this.setWeight = (weight) => {
-        this.weight = weight;
-    };
-    this.toString = () => this.name;
-
-    return this;
-}
-
-// This is the list of Criteria, and the order is important, since the Rank will reference the index of this array
-const criteria = [new Criteria('wait time'), new Criteria('deliciousness')];
+const actions = {
+    setProblem: (problem) => state.problem = problem,
+    addOption: (option) => state.options.push(option),
+    removeOption: (index) => state.options.splice(index, 1),
+    getOptionIterator: () => state.criteria.values(),
+    addCriteria: (criteria) => state.criteria.push(criteria),
+    removeCriteria: (index) => state.criteria.splice(index, 1),
+    getCriteriaIterator: () => state.criteria.values()
+};
 
 const root = document.createElement('div');
 root.id = 'root';
 document.body.appendChild(root);
 
-const firstScreen = {
-    oninit: () => console.log('first screen initialized'),
-    view: () => m('#first-screen', [
-        m('h1.lhs', 'This is the first screen!'),
-        m('hr.mv4'),
-        m('div.r', [
-            m('div.c4.c4-m', [
-                m('label[for=problem]', 'What is the problem you\'re trying to solve?'),
-                m('br'),
-                m('input', {
-                    id: 'problem',
-                    type: 'text',
-                    placeholder: 'What\'s the problem?',
-                    value: problem,
-                    autofocus: true,
-                    oninput: (e) => {
-                        problem = e.target.value;
-                    },
-                    onkeydown: (e) => {
-                        console.log(e);
-                        if (e.key == 'Enter') {
-                            console.log(problem);
-                            m.route.set('/step-2');
-                        }
-                    }
-                })
-            ]),
-            m('div.c4.c4-m', [
-                problem.length ? m(m.route.Link, {
-                    selector: 'button[type=button]',
-                    href: '/step-2',
-                    class: 'mh3 p3'
-                }, 'Next') : ''
-            ])
-        ]),
-        m('h2.lhs', `The problem is: ${problem}`)
-    ])
-}
-
-const secondScreen = {
-    oninit: () => {
-        console.log('second screen initialized')
-    },
-    currentOption: null,
-    view: (vnode) => {
-        return m('#second-screen', [
-            m('h1.lhs', 'This is the second screen!'),
-            m('hr.mv4'),
-            m('div.r', [
-                m('div.c4.c4-m', [
-                    m('label[for=option]', 'List the possible options or solutions:'),
-                    m('br'),
-                    m('input', {
-                        id: 'option',
-                        type: 'text',
-                        placeholder: 'e.g., "Taco Bell"',
-                        autofocus: true,
-                        oninput: (e) => {
-                            vnode.state.currentOption = e.target.value;
-                        },
-                        onkeydown: (e) => {
-                            console.log(e);
-                            if (e.key == 'Enter') {
-                                console.log(vnode.state.currentOption);
-                                const newOption = new Option(vnode.state.currentOption);
-                                options.push(newOption);
-                                e.target.value = '';
-                            }
-                        }
-                    }),
-                ]),
-                m('div.c4.c4-m', [
-                    m(m.route.Link, {
-                        selector: 'button[type=button]',
-                        href: '/step-3',
-                        class: 'mh3 p3'
-                    }, 'Next')
-                ])
-            ]),
-            m('div.options', options.map((option) => {
-                return m('p', option.name);
-            }))
-        ]);
-    }
-}
-
-const thirdScreen = {
-    oninit: () => {
-        console.log('third screen initialized')
-    },
-    currentCriteria: null,
-    view: (vnode) => {
-        return m('#third-screen', [
-            m('h1.lhs', 'This is the third screen!'),
-            m('hr.mv4'),
-            m('div.r', [
-                m('div.c4.c4-m', [
-                    m('label[for=criteria]', 'List the criteria for evaluating an option:'),
-                    m('br'),
-                    m('input', {
-                        id: 'criteria',
-                        type: 'text',
-                        placeholder: 'e.g., "Wait Time"',
-                        autofocus: true,
-                        oninput: (e) => {
-                            vnode.state.currentCriteria = e.target.value;
-                        },
-                        onkeydown: (e) => {
-                            console.log(e);
-                            if (e.key == 'Enter') {
-                                console.log(vnode.state.currentCriteria);
-                                const newCriteria = new Criteria(vnode.state.currentCriteria);
-                                criteria.push(newCriteria);
-                                e.target.value = '';
-                            }
-                        }
-                    }),
-                ]),
-                m('div.c4.c4-m', [
-                    m(m.route.Link, {
-                        selector: 'button[type=button]',
-                        href: '/step-4',
-                        class: 'mh3 p3'
-                    }, 'Next')
-                ])
-            ]),
-            m('div.options', criteria.map((c) => {
-                return m('p', c.name);
-            }))
-        ]);
-    }
-}
-
-const fourthScreen = {
-    oninit: (vnode) => {
-        console.log('fourth screen initialized');
-        vnode.state.optionsIterator = options.values();
-        vnode.state.criteriaIterator = criteria.values();
-        vnode.state.lastOption = vnode.state.optionsIterator.next();
-        vnode.state.lastCriteria = vnode.state.criteriaIterator.next();
-        console.log(vnode.state);
-    },
-    optionsIterator: null,
-    lastOption: null,
-    criteriaIterator: null,
-    lastCriteria: null,
-    currentRank: null,
-    currentCriteriaIndex: 0,
-    nextOption: (vnode) => {
-        const { optionsIterator, lastOption } = vnode.state;
-
-        if (optionsIterator === null) {
-            console.log('no options!');
-        } else if (lastOption !== null && !lastOption.done) {
-            vnode.state.lastOption = optionsIterator.next();
-
-            if (vnode.state.lastOption.done) {
-                console.log('render matrix');
-                m.route.set('/matrix');
-            }
-        }
-
-        m.redraw();
-    },
-    nextCriteria: (vnode) => {
-        // Only for reading and executing,
-        // write to vnode.state directly.
-        const {
-            criteriaIterator,
-            lastCriteria,
-            nextOption
-        } = vnode.state;
-
-        if (criteriaIterator === null) {
-            console.log('no criteria!');
-        } else if (lastCriteria !== null && !lastCriteria.done) {
-            vnode.state.lastCriteria = criteriaIterator.next();
-            vnode.state.currentCriteriaIndex++;
-
-            if (vnode.state.lastCriteria.done) {
-                console.log('reloading criteria');
-                vnode.state.criteriaIterator = criteria.values();
-                vnode.state.lastCriteria = vnode.state.criteriaIterator.next();
-                vnode.state.currentCriteriaIndex = 0;
-                nextOption(vnode);
-            }
-        }
-
-        m.redraw();
-    },
-    view: (vnode) => {
-        console.log('vnode state', vnode.state);
-        const {
-            lastOption: { value: optionValue } = {},
-            lastCriteria: { value: criteriaValue } = {},
-            nextCriteria
-        } = vnode.state;
-        return m('#fourth-screen', [
-            m('h1.lhs', 'This is the fourth screen!'),
-            m('hr.mv4'),
-            m('div.r', [
-                m('div.c4.c4-m', [
-                    m('label[for=rank]', 'Rank this option according to the criteria:'),
-                    m('br'),
-                    m('span.mr4', `${optionValue} ${criteriaValue}`),
-                    m('input.mr4', {
-                        id: 'rank',
-                        type: 'number',
-                        min: 1,
-                        max: 3,
-                        placeholder: '1 to 3',
-                        autofocus: true,
-                        oninput: (e) => {
-                            vnode.state.currentRank = e.target.value;
-                        }
-                    }),
-                    m('button[type=button]', {
-                        onclick: (e) => {
-                            const {
-                                currentCriteriaIndex,
-                                currentRank,
-                                lastOption
-                            } = vnode.state;
-
-                            optionValue.addRank(currentCriteriaIndex, currentRank);
-                            console.log(options);
-                            nextCriteria(vnode);
-                        },
-                        class: 'mv3 p4'
-                    }, `Assign ${optionValue} criteria ranking`)
-                ]),
-                m('div.c4.c4-m', [
-                    m(m.route.Link, {
-                        selector: 'button[type=button]',
-                        href: '/step-1',
-                        class: 'mh3 p3'
-                    }, 'Next')
-                ])
-            ])
-        ]);
-    }
-}
-
-const matrix = {
-    view: () => {
-        return m('div#matrix', [
-            m('h1.lhs', 'MATRIX'),
-            m('table', [
-                m('caption', problem),
-                m('thead', criteria.map(c => m('th', c.name))),
-                m('tbody', options.map(p => {
-                    return m('tr', p.ranks.map(r => {
-                        const thisCriteria = criteria[r.criteriaIndex];
-                        return m('td', `${thisCriteria.name}: ${r.rankValue} * ${thisCriteria.weight} = ${r.rankValue * thisCriteria.weight}`)
-                    }));
-                }))
-            ])
-        ]);
-    }
-}
-
 m.route(root, '/step-1', {
-    '/step-1': firstScreen,
-    '/step-2': secondScreen,
-    '/step-3': thirdScreen,
-    '/step-4': fourthScreen,
-    '/matrix': matrix
+    '/step-1': {
+        render: () => m(FirstScreen, { state, actions })
+    },
+    '/step-2': {
+        render: () => m(SecondScreen, { state, actions })
+    },
+    '/step-3': {
+        render: () => m(ThirdScreen, { state, actions })
+    },
+    '/step-4': {
+        render: () => m(FourthScreen, { state, actions })
+    },
+    '/matrix': {
+        render: () => m(MatrixScreen, { state, actions })
+    }
 });
