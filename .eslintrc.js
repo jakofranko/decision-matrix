@@ -9,7 +9,9 @@ module.exports = {
         "sourceType": "module"
     },
     "globals": {
-        "module": "readonly"
+        "module": "readonly",
+        "require": "readonly",
+        "__dirname": "readonly"
     },
     "rules": {
     }
