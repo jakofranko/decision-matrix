@@ -30,12 +30,41 @@ export default function ThirdScreen() {
                                     this.currentCriteria = null;
                                 }
                             }
-                        }),
+                        })
                     ]),
                     m('div.c4.c4-m', [
                         m('h3', 'Problem Criteria:'),
+                        m('p', `Weight Points: ${state.weightPoints}`),
                         m('ul', state.criteria.map((c) => {
-                            return m('li', c.name);
+                            return m('li', [
+                                c.name,
+                                m('br'),
+                                m('label.mr2', `weight:`),
+                                m('input[type=number].mw2', {
+                                    value: c.weight,
+                                    'data-lastweight': c.weight,
+                                    placeholder: 'Weight',
+                                    min: 1,
+                                    oninput: (e) => {
+                                        debugger;
+                                        const { value, dataset } = e.target;
+                                        if (value > dataset.lastweight) {
+                                            // Don't exceed point pool
+                                            if (state.weightPoints === 0) {
+                                                return;
+                                            }
+
+                                            actions.decrementWeightPoints();
+                                        } else if (value < dataset.lastweight) {
+                                            // Shouldn't need to see if the input is
+                                            // below zero, since the min is set to 1
+                                            actions.incrementWeightPoints();
+                                        }
+
+                                        c.setWeight(value);
+                                    }
+                                })
+                            ]);
                         }))
                     ])
                 ]),

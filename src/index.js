@@ -53,6 +53,9 @@ const state = {
         // new Criteria('Wait Time', 1),
         // new Criteria('Healthiness', 2)
     ],
+
+    // The pool of points to assign to criteria for weighting their significance on the decision
+    weightPoints: 10
 };
 
 const actions = {
@@ -62,7 +65,9 @@ const actions = {
     getOptionIterator: () => state.criteria.values(),
     addCriteria: (criteria) => state.criteria.push(criteria),
     removeCriteria: (index) => state.criteria.splice(index, 1),
-    getCriteriaIterator: () => state.criteria.values()
+    getCriteriaIterator: () => state.criteria.values(),
+    decrementWeightPoints: () => state.weightPoints--,
+    incrementWeightPoints: () => state.weightPoints++
 };
 
 const root = document.createElement('div');
