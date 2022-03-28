@@ -1,6 +1,10 @@
 import m from 'mithril';
 import Navigation from './Navigation';
 
+// TODO: either only display unranked option/casualty pairs,
+// or display this differently so that all the options at once
+// are shown with their rank, so that if it's already set
+// then the number is filled in (instead of a blank input)
 export default function FourthScreen() {
     return {
         oninit: ({ attrs: { state }}) => {
