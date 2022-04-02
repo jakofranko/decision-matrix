@@ -21,8 +21,8 @@ export default function MatrixScreen() {
         },
         view: ({ attrs: { state }}) => {
             return m('div#matrix', [
-                m('h1.lhs.mb3', 'MATRIX'),
-                m('table.mb3', [
+                m('h2.lhs.mb3', 'MATRIX'),
+                m('div.vh7', m('table', [
                     m('caption', state.problem),
                     m('thead', [
                         m('th'),
@@ -42,7 +42,7 @@ export default function MatrixScreen() {
                             }, 0))
                         ]);
                     }))
-                ]),
+                ])),
                 m(Navigation)
             ]);
         }

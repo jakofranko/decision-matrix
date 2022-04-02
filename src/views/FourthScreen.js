@@ -13,7 +13,9 @@ export default function FourthScreen() {
             this.lastOption = this.optionsIterator.next();
             this.lastCriteria = this.criteriaIterator.next();
             this.currentCriteriaIndex = 0;
-            this.currentRank = 0;
+            this.currentRank = this.lastOption.value.ranks[0]
+                ? this.lastOption.value.ranks[0].rankValue
+                : 0;
         },
         oncreate: ({ dom }) => {
             const input = dom.querySelector('#rank');
@@ -45,11 +47,17 @@ export default function FourthScreen() {
             if (lastCriteria !== null && !lastCriteria.done) {
                 this.lastCriteria = criteriaIterator.next();
                 this.currentCriteriaIndex++;
+                this.currentRank = this.lastOption.value.ranks[this.currentCriteriaIndex]
+                    ? this.lastOption.value.ranks[this.currentCriteriaIndex].rankValue
+                    : 0;
 
                 if (this.lastCriteria.done) {
                     this.criteriaIterator = criteria.values();
                     this.lastCriteria = this.criteriaIterator.next();
                     this.currentCriteriaIndex = 0;
+                    this.currentRank = this.lastOption.value.ranks[this.currentCriteriaIndex]
+                        ? this.lastOption.value.ranks[this.currentCriteriaIndex].rankValue
+                        : 0;
                     nextOption(vnode);
                 }
             }
@@ -65,16 +73,18 @@ export default function FourthScreen() {
             } = this;
             const { nextCriteria } = vnode.state;
             const { state: { criteria, options } } = vnode.attrs;
+            const currentOptionRank = optionValue ? optionValue.ranks[currentCriteriaIndex] : null;
 
             return m('#fourth-screen', [
-                m('div.r', [
-                    m('div.c4.c4-m', [
-                        m('label[for=rank]', 'Rank this option according to the criteria:'),
+                m('h2.lhs.mb3', 'Rank Each Option'),
+                m('div.r.vh7', [
+                    m('div.c6.c6-m', [
+                        m('label[for=rank]', `Rank ${optionValue} for ${criteriaValue}`),
                         m('br'),
-                        m('span.mr4', `${optionValue} ${criteriaValue}`),
                         m('input.mr4.mw3', {
                             id: 'rank',
                             type: 'number',
+                            value: currentRank,
                             min: 1,
                             max: 3,
                             step: 1,
@@ -84,22 +94,30 @@ export default function FourthScreen() {
                             },
                             onkeydown: (e) => {
                                 if (e.key == 'Enter' && this.currentRank) {
-                                    optionValue.addRank(currentCriteriaIndex, currentRank);
+                                    if (currentOptionRank) {
+                                        currentOptionRank.rankValue = currentRank;
+                                    } else {
+                                        optionValue.addRank(currentCriteriaIndex, currentRank);
+                                    }
                                     nextCriteria(vnode);
                                     e.target.value = '';
-                                    this.currentRank = null;
                                 }
                             }
                         }),
-                        m('button[type=button]', {
-                            onclick: () => {
-                                optionValue.addRank(currentCriteriaIndex, currentRank);
-                                nextCriteria(vnode);
-                                vnode.dom.querySelector('#rank').value = '';
-                                this.currentRank = null;
-                            },
-                            class: 'mv3 p4'
-                        }, `Assign ${optionValue} criteria ranking`)
+                        m('div.ranking-nav', [
+                            m('button[type=button]', {
+                                onclick: () => {
+                                    if (currentOptionRank) {
+                                        currentOptionRank.rankValue = currentRank;
+                                    } else {
+                                        optionValue.addRank(currentCriteriaIndex, currentRank);
+                                    }
+                                    nextCriteria(vnode);
+                                    vnode.dom.querySelector('#rank').value = '';
+                                },
+                                class: 'mv3 p4'
+                            }, `Assign ${optionValue} criteria ranking`)
+                        ])
                     ])
                 ]),
                 m(Navigation, { nextCondition: () => this.lastOption.done || options.every((option) => option.ranks.length >= criteria.length) })

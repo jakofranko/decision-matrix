@@ -11,8 +11,9 @@ export default function SecondScreen() {
         currentOption: null,
         view: ({ attrs: { state, actions } }) => {
             return m('#second-screen', [
-                m('div.r', [
-                    m('div.c4.c4-m', [
+                m('h2.lhs.mb3', 'List Solutions/Options'),
+                m('div.r.vh7', [
+                    m('div.c6.c6-m', [
                         m('label[for=option]', 'List the possible options or solutions:'),
                         m('br'),
                         m('input', {
@@ -31,8 +32,9 @@ export default function SecondScreen() {
                                 }
                             }
                         }),
+                        m('p.sc', '(press enter/return)')
                     ]),
-                    m('div.c4.c4-m', [
+                    m('div.c6.c6-m', [
                         m('h3', 'Potential Solutions:'),
                         m('ul', state.options.map((option) => {
                             return m('li', option.name);

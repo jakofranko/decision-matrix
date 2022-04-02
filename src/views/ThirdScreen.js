@@ -11,8 +11,9 @@ export default function ThirdScreen() {
         currentCriteria: null,
         view: ({ attrs: { state, actions } }) => {
             return m('#third-screen', [
-                m('div.r', [
-                    m('div.c4.c4-m', [
+                m('h2.lhs.mb3', 'List Criteria'),
+                m('div.r.vh7', [
+                    m('div.c6.c6-m', [
                         m('label[for=criteria]', 'List the criteria for evaluating an option:'),
                         m('br'),
                         m('input', {
@@ -30,9 +31,10 @@ export default function ThirdScreen() {
                                     this.currentCriteria = null;
                                 }
                             }
-                        })
+                        }),
+                        m('p.sc', '(press enter/return)')
                     ]),
-                    m('div.c4.c4-m', [
+                    m('div.c6.c6-m', [
                         m('h3', 'Problem Criteria:'),
                         m('p', `Weight Points: ${state.weightPoints}`),
                         m('ul', state.criteria.map((c) => {
@@ -46,7 +48,6 @@ export default function ThirdScreen() {
                                     placeholder: 'Weight',
                                     min: 1,
                                     oninput: (e) => {
-                                        debugger;
                                         const { value, dataset } = e.target;
                                         if (value > dataset.lastweight) {
                                             // Don't exceed point pool

@@ -23,20 +23,20 @@ export default function Navigation() {
         }}) => {
             const next = flowIndex != navFlow.length - 1 && nextCondition()
                 ? m('button', {
-                    class: 'bg-blu blanc pv2 ph3 mr4',
+                    class: 'bg-blu blanc pv2 ph3 rf',
                     type: 'button',
                     onclick: () => m.route.set(navFlow[nextScreenIndex])
                 }, 'Next')
                 : null;
             const prev = flowIndex != 0 && previousCondition()
                 ? m('button', {
-                    class: 'bg-blu blanc pv2 ph3 mr4',
+                    class: 'bg-blu blanc pv2 ph3 mr4 lf',
                     type: 'button',
                     onclick: () => m.route.set(navFlow[previousScreenIndex])
                 }, 'Back')
                 : null;
 
-            return m('div.sh5', [
+            return m('nav.mv3.sh5.ac', [
                 prev,
                 next
             ]);
