@@ -21,12 +21,12 @@ export default function MatrixScreen() {
         },
         view: ({ attrs: { state }}) => {
             return m('div#matrix', [
-                m('h2.lhs.mb3', 'MATRIX'),
-                m('div.vh7', m('table', [
+                m('h2.lhs.mb3', 'Results Matrix'),
+                m('div', m('table', [
                     m('caption', state.problem),
                     m('thead', [
                         m('th'),
-                        state.criteria.map(c => m('th', c.name)),
+                        state.criteria.map(c => m('th', `${c.name} (${c.weight})`)),
                         m('th', 'Score')
                     ]),
                     m('tbody', state.options.map(p => {
@@ -34,7 +34,7 @@ export default function MatrixScreen() {
                             m('th', p.name),
                             p.ranks.map(r => {
                                 const thisCriteria = state.criteria[r.criteriaIndex];
-                                return m('td', `${thisCriteria.name}: ${r.rankValue} * ${thisCriteria.weight} = ${r.rankValue * thisCriteria.weight}`)
+                                return m('td.ac', `${r.rankValue} (${r.rankValue * thisCriteria.weight})`)
                             }),
                             m('td.score', p.ranks.reduce((total, r) => {
                                 const thisCriteria = state.criteria[r.criteriaIndex];

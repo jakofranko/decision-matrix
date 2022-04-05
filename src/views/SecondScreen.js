@@ -12,8 +12,8 @@ export default function SecondScreen() {
         view: ({ attrs: { state, actions } }) => {
             return m('#second-screen', [
                 m('h2.lhs.mb3', 'List Solutions/Options'),
-                m('div.r.vh7', [
-                    m('div.c6.c6-m', [
+                m('div.r', [
+                    m('div.c6.c6-m.mb3', [
                         m('label[for=option]', 'List the possible options or solutions:'),
                         m('br'),
                         m('input', {

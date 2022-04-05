@@ -12,9 +12,9 @@ export default function ThirdScreen() {
         view: ({ attrs: { state, actions } }) => {
             return m('#third-screen', [
                 m('h2.lhs.mb3', 'List Criteria'),
-                m('div.r.vh7', [
-                    m('div.c6.c6-m', [
-                        m('label[for=criteria]', 'List the criteria for evaluating an option:'),
+                m('div.r', [
+                    m('div.c6.c6-m.mb3', [
+                        m('label[f.or=criteria]', 'List the criteria for evaluating an option:'),
                         m('br'),
                         m('input', {
                             id: 'criteria',

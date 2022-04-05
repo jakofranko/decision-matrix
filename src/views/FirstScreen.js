@@ -9,7 +9,7 @@ export default function FirstScreen() {
         },
         view: ({ attrs: { state, actions } }) => m('#first-screen', [
             m('h2.lhs.mb3', `The problem is: ${state.problem}`),
-            m('div.vh7', [
+            m('div', [
                 m('label[for=problem]', 'What is the problem you\'re trying to solve?'),
                 m('br'),
                 m('input', {

@@ -77,7 +77,7 @@ export default function FourthScreen() {
 
             return m('#fourth-screen', [
                 m('h2.lhs.mb3', 'Rank Each Option'),
-                m('div.r.vh7', [
+                m('div.r', [
                     m('div.c6.c6-m', [
                         m('label[for=rank]', `Rank ${optionValue} for ${criteriaValue}`),
                         m('br'),
@@ -104,20 +104,7 @@ export default function FourthScreen() {
                                 }
                             }
                         }),
-                        m('div.ranking-nav', [
-                            m('button[type=button]', {
-                                onclick: () => {
-                                    if (currentOptionRank) {
-                                        currentOptionRank.rankValue = currentRank;
-                                    } else {
-                                        optionValue.addRank(currentCriteriaIndex, currentRank);
-                                    }
-                                    nextCriteria(vnode);
-                                    vnode.dom.querySelector('#rank').value = '';
-                                },
-                                class: 'mv3 p4'
-                            }, `Assign ${optionValue} criteria ranking`)
-                        ])
+                        m('p.sc', '(press enter/return)')
                     ])
                 ]),
                 m(Navigation, { nextCondition: () => this.lastOption.done || options.every((option) => option.ranks.length >= criteria.length) })
