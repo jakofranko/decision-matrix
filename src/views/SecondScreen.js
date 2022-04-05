@@ -19,7 +19,7 @@ export default function SecondScreen() {
                         m('input', {
                             id: 'option',
                             type: 'text',
-                            placeholder: 'e.g., "Taco Bell"',
+                            placeholder: 'e.g., Upgrade Equipment',
                             oninput: (e) => {
                                 this.currentOption = e.target.value;
                             },

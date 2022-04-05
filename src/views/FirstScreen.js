@@ -15,7 +15,7 @@ export default function FirstScreen() {
                 m('input', {
                     id: 'problem',
                     type: 'text',
-                    placeholder: 'What\'s the problem?',
+                    placeholder: 'e.g., Reduce Wait Time',
                     value: state.problem,
                     oninput: (e) => {
                         actions.setProblem(e.target.value);
@@ -26,6 +26,7 @@ export default function FirstScreen() {
                         }
                     }
                 }),
+                m('p.sc', '(press enter/return)')
             ]),
             m(Navigation, { nextCondition: () => state.problem.length })
         ])

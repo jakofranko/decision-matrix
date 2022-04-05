@@ -19,7 +19,7 @@ export default function ThirdScreen() {
                         m('input', {
                             id: 'criteria',
                             type: 'text',
-                            placeholder: 'e.g., "Wait Time"',
+                            placeholder: 'e.g., Cost to Implement',
                             oninput: (e) => {
                                 this.currentCriteria = e.target.value;
                             },
