@@ -31,28 +31,28 @@ import ThirdScreen from './views/ThirdScreen';
 import FourthScreen from './views/FourthScreen';
 import MatrixScreen from './views/MatrixScreen';
 
-import Option from './models/option';
-import Criteria from './models/criteria';
+// import Option from './models/option';
+// import Criteria from './models/criteria';
 
 // Killer article on the topic of Mithril state management:
 // https://kevinfiol.com/blog/simple-state-management-in-mithriljs/
 const state = {
     // This will be the overarching problem-to-solve e.g., "Need to decide where to get dinner"
-    problem: "where to eat",
+    problem: "",
 
     // This will be this list of potential options e.g., "McDonald's, Chick-Fil-A, Pei Wei, Habit"
     // An option needs to have a name and a rank for each criteria.
     options: [
-        new Option('Wendy\'s').addRank(0, 2).addRank(1, 2).addRank(2, 2),
-        new Option('McDonalds').addRank(0, 2).addRank(1, 1).addRank(2, 3),
-        new Option('Taco Bell').addRank(0, 3).addRank(1, 3).addRank(2, 2),
+        // new Option('Wendy\'s').addRank(0, 2).addRank(1, 2).addRank(2, 2),
+        // new Option('McDonalds').addRank(0, 2).addRank(1, 1).addRank(2, 3),
+        // new Option('Taco Bell').addRank(0, 3).addRank(1, 3).addRank(2, 2),
     ],
 
     // This is the list of Criteria, and the order is important, since the Rank will reference the index of this array
     criteria: [
-        new Criteria('Deliciousness', 3),
-        new Criteria('Wait Time', 1),
-        new Criteria('Healthiness', 2)
+        // new Criteria('Deliciousness', 3),
+        // new Criteria('Wait Time', 1),
+        // new Criteria('Healthiness', 2)
     ],
 
     // The pool of points to assign to criteria for weighting their significance on the decision
