@@ -32,7 +32,8 @@ export default function ThirdScreen() {
                                 }
                             }
                         }),
-                        m('p.sc', '(press enter/return)')
+                        m('p.sc.mb3', '(press enter/return)'),
+                        m('p.m', 'Optionally, assign weights to each criteria, but you cannot exceed the amount of weight points available. If you do, you will not be able to move on to the next step until you have adjusted the weights appropriately.')
                     ]),
                     m('div.c6.c6-m', [
                         m('h3', 'Problem Criteria:'),
@@ -51,15 +52,15 @@ export default function ThirdScreen() {
                                         const { value, dataset } = e.target;
                                         if (value > dataset.lastweight) {
                                             // Don't exceed point pool
-                                            if (state.weightPoints === 0) {
+                                            if (state.weightPoints <= 0) {
                                                 return;
                                             }
 
-                                            actions.decrementWeightPoints();
+                                            actions.decrementWeightPoints(value - dataset.lastweight);
                                         } else if (value < dataset.lastweight) {
                                             // Shouldn't need to see if the input is
                                             // below zero, since the min is set to 1
-                                            actions.incrementWeightPoints();
+                                            actions.incrementWeightPoints(dataset.lastweight - value);
                                         }
 
                                         c.setWeight(value);
@@ -69,7 +70,7 @@ export default function ThirdScreen() {
                         }))
                     ])
                 ]),
-                m(Navigation, { nextCondition: () => state.criteria.length })
+                m(Navigation, { nextCondition: () => state.criteria.length && state.weightPoints >= 0 })
             ]);
         }
     }
