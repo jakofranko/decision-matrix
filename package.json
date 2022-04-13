@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "start": "webpack serve",
-    "build": "webpack build",
+    "build": "npm run build:icons && npm run build:webpack",
+    "build:icons": "generate-icons logo.svg",
+    "build:webpack": "webpack build",
     "test": "eslint"
   },
   "author": "Jake Franklin <jakofranko@gmail.com>",
@@ -15,12 +17,15 @@
     "mithril": "^2.0.4"
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.7.1",
     "eslint": "^8.11.0",
+    "generate-icons": "^0.1.10",
     "html-webpack-plugin": "^5.5.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4"
+    "webpack-dev-server": "^4.7.4",
+    "workbox-webpack-plugin": "^6.5.3"
   }
 }

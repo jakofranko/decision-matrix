@@ -12,15 +12,10 @@
 // implement. But it becomes apparent that complexity is perhaps not a well-worded criteria, since a high rank does not mean high complexity.
 // "Ease of implementation" is probably much better for a criteria here.
 //
-// To build the app:
-// 1. define data structures
-// 2. implement bare-bones CRUD GUI for some of these
-// 3. define UI flow
-// 4. implement UI
-// 5. implement the 10 point weighting method for criteria
-// 6. enable localStorage for data caching
-// 7. implement multiple decision matrixes
-// 8. Allow editing of decision matrixes
+// TODOs:
+// 1. enable localStorage for data caching
+// 2. implement multiple decision matrixes
+// 3. Allow editing of decision matrixes
 import m from 'mithril';
 import 'macian';
 
@@ -77,18 +72,44 @@ document.body.appendChild(root);
 
 m.route(root, '/step-1', {
     '/step-1': {
-        render: () => m(Layout, m(FirstScreen, { state, actions }))
+        render: () => m(Layout, m(FirstScreen, {
+            state,
+            actions
+        }))
     },
     '/step-2': {
-        render: () => m(Layout, m(SecondScreen, { state, actions }))
+        render: () => m(Layout, m(SecondScreen, {
+            state,
+            actions
+        }))
     },
     '/step-3': {
-        render: () => m(Layout, m(ThirdScreen, { state, actions }))
+        render: () => m(Layout, m(ThirdScreen, {
+            state,
+            actions
+        }))
     },
     '/step-4': {
-        render: () => m(Layout, m(FourthScreen, { state, actions }))
+        render: () => m(Layout, m(FourthScreen, {
+            state,
+            actions
+        }))
     },
     '/matrix': {
-        render: () => m(Layout, m(MatrixScreen, { state, actions }))
+        render: () => m(Layout, m(MatrixScreen, {
+            state,
+            actions
+        }))
     }
 });
+
+// Register service worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js').then(registration => {
+            console.log('SW registered: ', registration);
+        }).catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+        });
+    });
+}
