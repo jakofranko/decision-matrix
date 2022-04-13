@@ -3,7 +3,7 @@
     "short_name": "Decision Matrix",
     "description": "Make complex decisions by weighting and ranking your options according to your criteria.",
     "lang": "en-US",
-    "start_url": "/",
+    "start_url": "/decision-matrix",
     "display": "standalone",
     "theme_color": "#FEFEFE",
     "icons": [{

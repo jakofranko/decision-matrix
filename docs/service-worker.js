@@ -131,7 +131,7 @@ define(['./workbox-36b4d269'], (function (workbox) { 'use strict';
     "revision": "84034ebfdf237c4384eb400b303861fd"
   }, {
     "url": "manifest.json",
-    "revision": "00421089cbfcb3537bd8717bdb0513cf"
+    "revision": "951da1feeeef6b0899e696c1f3452833"
   }], {});
 
 }));
