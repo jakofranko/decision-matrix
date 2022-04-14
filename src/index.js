@@ -63,7 +63,13 @@ const actions = {
     removeCriteria: (index) => state.criteria.splice(index, 1),
     getCriteriaIterator: () => state.criteria.values(),
     decrementWeightPoints: (value) => state.weightPoints -= value,
-    incrementWeightPoints: (value) => state.weightPoints += value
+    incrementWeightPoints: (value) => state.weightPoints += value,
+    resetState: () => {
+        state.problem = '';
+        state.options = [];
+        state.criteria = [];
+        state.weightPoints = 10;
+    }
 };
 
 const root = document.createElement('div');

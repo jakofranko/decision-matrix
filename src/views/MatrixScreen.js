@@ -20,7 +20,7 @@ export default function MatrixScreen() {
             highestScoreNode.parentElement.classList.add('bg-grn');
             highestScoreNode.parentElement.classList.add('cl-1');
         },
-        view: ({ attrs: { state }}) => {
+        view: ({ attrs: { state, actions }}) => {
             return m('div#matrix', [
                 m('h2.lhs.mb3', 'Results Matrix'),
                 m('div', m('table', [
@@ -44,7 +44,13 @@ export default function MatrixScreen() {
                         ]);
                     }))
                 ])),
-                m(Navigation)
+                m(Navigation),
+                m(Button, {
+                    onclick: () => {
+                        actions.resetState();
+                        m.route.set('/step-1');
+                    }
+                }, 'New Decision')
             ]);
         }
     }
