@@ -67,7 +67,7 @@ if (!self.define) {
     });
   };
 }
-define(['./workbox-36b4d269'], (function (workbox) { 'use strict';
+define(['./workbox-dd76a1de'], (function (workbox) { 'use strict';
 
   /**
   * Welcome to your Workbox-powered service worker!
@@ -129,6 +129,7 @@ define(['./workbox-36b4d269'], (function (workbox) { 'use strict';
     "url": "manifest.json",
     "revision": "145590bde5b1b5b0c18fdd4900aab444"
   }], {});
+  workbox.registerRoute(/\.js$/, new workbox.NetworkFirst(), 'GET');
 
 }));
 //# sourceMappingURL=service-worker.js.map

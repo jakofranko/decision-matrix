@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { GenerateSW } = require('workbox-webpack-plugin');
+const {
+    GenerateSW
+} = require('workbox-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
@@ -45,12 +47,21 @@ module.exports = {
         new GenerateSW({
             mode,
             clientsClaim: true,
-            skipWaiting: true
+            skipWaiting: true,
+            runtimeCaching: [{
+                urlPattern: /\.js$/,
+                handler: 'NetworkFirst'
+            }]
         }),
         new CopyPlugin({
-            patterns: [
-                { from: './public/assets', to: 'assets'},
-                { from: './public/manifest.json', to: 'manifest.json'}
+            patterns: [{
+                    from: './public/assets',
+                    to: 'assets'
+                },
+                {
+                    from: './public/manifest.json',
+                    to: 'manifest.json'
+                }
             ]
         })
     ],
