@@ -45,6 +45,7 @@ module.exports = {
         new GenerateSW({
             mode,
             clientsClaim: true,
+            skipWaiting: true
         }),
         new CopyPlugin({
             patterns: [
