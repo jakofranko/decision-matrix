@@ -81,11 +81,7 @@ define(['./workbox-36b4d269'], (function (workbox) { 'use strict';
   * See https://goo.gl/2aRDsh
   */
 
-  self.addEventListener('message', event => {
-    if (event.data && event.data.type === 'SKIP_WAITING') {
-      self.skipWaiting();
-    }
-  });
+  self.skipWaiting();
   workbox.clientsClaim();
   /**
    * The precacheAndRoute() method efficiently caches and responds to
@@ -128,7 +124,7 @@ define(['./workbox-36b4d269'], (function (workbox) { 'use strict';
     "revision": "6f2c84123c7801c16dd509373e6d15c9"
   }, {
     "url": "main.js",
-    "revision": "bc181a83a654aa1ff8c505fb7e115b85"
+    "revision": "a9fbb836e210fc328c8b2f35145e086b"
   }, {
     "url": "manifest.json",
     "revision": "145590bde5b1b5b0c18fdd4900aab444"
