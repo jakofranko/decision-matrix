@@ -1,5 +1,6 @@
 import m from 'mithril';
 import Navigation from './Navigation';
+import Button from '../components/Button';
 
 export default function MatrixScreen() {
     return {

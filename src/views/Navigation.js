@@ -1,4 +1,5 @@
 import m from 'mithril';
+import Button from '../components/Button';
 
 // Contains the flow for the app, but attrs for
 // previousCondition and nextCondition may be passed in
@@ -22,16 +23,12 @@ export default function Navigation() {
             nextCondition = () => true
         }}) => {
             const next = flowIndex != navFlow.length - 1 && nextCondition()
-                ? m('button', {
-                    class: 'bg-blu blanc pv2 ph3 f5 f4-s br1 bsb',
-                    type: 'button',
+                ? m(Button, {
                     onclick: () => m.route.set(navFlow[nextScreenIndex])
                 }, 'Next')
                 : null;
             const prev = flowIndex != 0 && previousCondition()
-                ? m('button', {
-                    class: 'bg-blu blanc pv2 ph3 f5 f4-s br1 bsb mr4',
-                    type: 'button',
+                ? m(Button, {
                     onclick: () => m.route.set(navFlow[previousScreenIndex])
                 }, 'Back')
                 : null;
