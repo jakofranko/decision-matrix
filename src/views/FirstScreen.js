@@ -14,6 +14,7 @@ export default function FirstScreen() {
                 m('br'),
                 m('input', {
                     id: 'problem',
+                    class: 'bg-blanc br1 sh5-s vw7-s',
                     type: 'text',
                     placeholder: 'e.g., Reduce Wait Time',
                     value: state.problem,

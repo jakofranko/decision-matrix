@@ -83,6 +83,7 @@ export default function FourthScreen() {
                         m('br'),
                         m('input.mr4.mw3', {
                             id: 'rank',
+                            class: 'bg-blanc br1 sh5-s vw7-s',
                             type: 'number',
                             value: currentRank,
                             min: 1,

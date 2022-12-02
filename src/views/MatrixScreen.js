@@ -49,7 +49,8 @@ export default function MatrixScreen() {
                     onclick: () => {
                         actions.resetState();
                         m.route.set('/step-1');
-                    }
+                    },
+                    classNames: 'ac'
                 }, 'New Decision')
             ]);
         }

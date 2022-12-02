@@ -18,6 +18,7 @@ export default function ThirdScreen() {
                         m('br'),
                         m('input', {
                             id: 'criteria',
+                            class: 'bg-blanc br1 sh5-s vw7-s',
                             type: 'text',
                             placeholder: 'e.g., Cost to Implement',
                             oninput: (e) => {
@@ -44,6 +45,7 @@ export default function ThirdScreen() {
                                 m('br'),
                                 m('label.mr2', `weight:`),
                                 m('input[type=number].mw2', {
+                                    class: 'bg-blanc br1 sh5-s vw7-s',
                                     value: c.weight,
                                     'data-lastweight': c.weight,
                                     placeholder: 'Weight',
