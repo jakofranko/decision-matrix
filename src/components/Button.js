@@ -6,11 +6,11 @@ const Button = {
         attrs: {
             onclick,
             type = 'button',
-            classNames = '',
+            classNames = 'mh3',
         }
     }) => {
         return m('button', {
-            class: classNames + ' bg-blu blanc mh3 pv2 ph3 f5 f4-s br1 bsb',
+            class: classNames + ' bg-blu blanc pv2 ph3 f5 f4-s br1 bsb',
             type,
             onclick
         }, children)

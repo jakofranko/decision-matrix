@@ -24,16 +24,18 @@ export default function Navigation() {
         }}) => {
             const next = flowIndex != navFlow.length - 1 && nextCondition()
                 ? m(Button, {
+                    classNames: 'm0',
                     onclick: () => m.route.set(navFlow[nextScreenIndex])
                 }, 'Next')
                 : null;
             const prev = flowIndex != 0 && previousCondition()
                 ? m(Button, {
+                    classNames: 'mr3',
                     onclick: () => m.route.set(navFlow[previousScreenIndex])
                 }, 'Back')
                 : null;
 
-            return m('nav.mv3.sh5', [
+            return m('nav.mv3.sh5.pss.psf-s.b0-s', [
                 prev,
                 next
             ]);

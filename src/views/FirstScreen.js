@@ -14,7 +14,7 @@ export default function FirstScreen() {
                 m('br'),
                 m('input', {
                     id: 'problem',
-                    class: 'bg-blanc br1 sh5-s vw7-s',
+                    class: 'bg-blanc br1 mb2 p2 sh5-s vw7-s',
                     type: 'text',
                     placeholder: 'e.g., Reduce Wait Time',
                     value: state.problem,
@@ -27,7 +27,7 @@ export default function FirstScreen() {
                         }
                     }
                 }),
-                m('p.sc', '(press enter/return)')
+                m('p.sc', '(click next or press enter/return)')
             ]),
             m(Navigation, { nextCondition: () => state.problem.length })
         ])

@@ -18,7 +18,7 @@ export default function ThirdScreen() {
                         m('br'),
                         m('input', {
                             id: 'criteria',
-                            class: 'bg-blanc br1 sh5-s vw7-s',
+                            class: 'bg-blanc br1 mb2 p2 sh5-s vw7-s',
                             type: 'text',
                             placeholder: 'e.g., Cost to Implement',
                             oninput: (e) => {
@@ -33,19 +33,19 @@ export default function ThirdScreen() {
                                 }
                             }
                         }),
-                        m('p.sc.mb3', '(press enter/return)'),
-                        m('p.m', 'Optionally, assign weights to each criteria, but you cannot exceed the amount of weight points available. If you do, you will not be able to move on to the next step until you have adjusted the weights appropriately.')
+                        m('p.sc.mb3', '(click next or press enter/return)'),
+                        m('p.m', 'Optionally, assign weights to each criteria, but you cannot exceed the amount of weight points available. If you do, you will not be able to move on to the next step until you have adjusted the weights appropriately.'),
+                        m('p.ba.bso.mv2.p2', `Weight points left: ${state.weightPoints}`)
                     ]),
                     m('div.c6.c6-m', [
                         m('h3', 'Problem Criteria:'),
-                        m('p', `Weight Points: ${state.weightPoints}`),
                         m('ul', state.criteria.map((c) => {
                             return m('li', [
                                 c.name,
                                 m('br'),
                                 m('label.mr2', `weight:`),
                                 m('input[type=number].mw2', {
-                                    class: 'bg-blanc br1 sh5-s vw7-s',
+                                    class: 'bg-blanc br1 p2 vw2',
                                     value: c.weight,
                                     'data-lastweight': c.weight,
                                     placeholder: 'Weight',

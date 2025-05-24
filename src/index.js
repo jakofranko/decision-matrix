@@ -74,6 +74,7 @@ const actions = {
 
 const root = document.createElement('div');
 root.id = 'root';
+root.className = 'm4';
 document.body.appendChild(root);
 
 m.route(root, '/step-1', {

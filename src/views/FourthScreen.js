@@ -81,9 +81,9 @@ export default function FourthScreen() {
                     m('div.c6.c6-m', [
                         m('label[for=rank]', `Rank ${optionValue} for ${criteriaValue}`),
                         m('br'),
-                        m('input.mr4.mw3', {
+                        m('input', {
                             id: 'rank',
-                            class: 'bg-blanc br1 sh5-s vw7-s',
+                            class: 'bg-blanc br1 mb2 p2 vw7-s',
                             type: 'number',
                             value: currentRank,
                             min: 1,

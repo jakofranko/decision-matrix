@@ -18,7 +18,7 @@ export default function SecondScreen() {
                         m('br'),
                         m('input', {
                             id: 'option',
-                            class: 'bg-blanc br1 sh5-s vw7-s',
+                            class: 'bg-blanc br1 mb2 p2 sh5-s vw7-s',
                             type: 'text',
                             placeholder: 'e.g., Upgrade Equipment',
                             oninput: (e) => {
@@ -33,9 +33,9 @@ export default function SecondScreen() {
                                 }
                             }
                         }),
-                        m('p.sc', '(press enter/return)')
+                        m('p.sc', '(click next or press enter/return)')
                     ]),
-                    m('div.c6.c6-m', [
+                    m('div.c6.c6-m.vh7-m.vh5-s', [
                         m('h3', 'Potential Solutions:'),
                         m('ul', state.options.map((option) => {
                             return m('li', option.name);
