@@ -45,12 +45,18 @@ export default function SecondScreen() {
                             onclick: () => addNewOption(this, actions),
                             classNames: 'mh2 mh0-m mh0-s mv2-s'
                         }, 'Add Option'),
-                        m('p.sc', '(click next or press enter/return)')
+                        m('p.sc', '(click button or press enter/return to add option)')
                     ]),
                     m('div.c6.c6-m.vh7-m.vh5-s', [
                         m('h3', 'Potential Solutions:'),
-                        m('ul', state.options.map((option) => {
-                            return m('li', option.name);
+                        m('ul', state.options.map((option, i) => {
+                            return m('li', [
+                                option.name,
+                                m('button', {
+                                    onclick: () => actions.removeOption(i),
+                                    class: 'red fwb ml3'
+                                }, 'X')
+                            ]);
                         }))
                     ])
                 ]),
