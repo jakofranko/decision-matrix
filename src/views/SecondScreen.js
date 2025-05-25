@@ -47,7 +47,7 @@ export default function SecondScreen() {
                         }, 'Add Option'),
                         m('p.sc', '(click button or press enter/return to add option)')
                     ]),
-                    m('div.c6.c6-m.vh7-m.vh5-s', [
+                    m('div.c6.c6-m.pl4.vh7-m.vh5-s', [
                         m('h3', 'Potential Solutions:'),
                         m('ul', state.options.map((option, i) => {
                             return m('li', [

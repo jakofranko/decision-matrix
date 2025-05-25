@@ -48,14 +48,14 @@ export default function ThirdScreen() {
                         m('p.m', 'Optionally, assign weights to each criteria, but you cannot exceed the amount of weight points available. If you do, you will not be able to move on to the next step until you have adjusted the weights appropriately.'),
                         m('p.m.ba.bso.mv2.p2', `Weight points left: ${state.weightPoints}`)
                     ]),
-                    m('div.c6.c6-m', [
+                    m('div.c6.c6-m.pl4', [
                         m('h3', 'Problem Criteria:'),
-                        m('ul', state.criteria.map((c, i) => {
+                        m('ul.vh2-s', state.criteria.map((c, i) => {
                             return m('li', [
                                 c.name,
                                 m('button', {
                                     onclick: () => actions.removeCriteria(i),
-                                    class: 'red fwb ml3 rf-s'
+                                    class: 'red fwb ml3 mt2-s mr4-s rf-s'
                                 }, 'X'),
                                 m('br'),
                                 m('label.mr2', `Weight:`),

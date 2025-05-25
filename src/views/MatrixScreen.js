@@ -23,6 +23,7 @@ export default function MatrixScreen() {
         view: ({ attrs: { state, actions }}) => {
             return m('div#matrix', [
                 m('h2.lhs.mb3', 'Results Matrix'),
+                m('span.dn.di-s.sc', '(Landscape for better view)'),
                 m('div', m('table', [
                     m('caption', state.problem),
                     m('thead', [
@@ -50,7 +51,7 @@ export default function MatrixScreen() {
                         actions.resetState();
                         m.route.set('/step-1');
                     },
-                    classNames: 'ac'
+                    classNames: 'mv4-s'
                 }, 'New Decision')
             ]);
         }
