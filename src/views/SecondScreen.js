@@ -1,6 +1,16 @@
 import m from 'mithril';
 import Navigation from './Navigation';
+import Button from '../components/Button';
 import Option from '../models/option';
+
+function addNewOption(view, actions) {
+    const optionInput = document.querySelector('#option');
+    const newOption = new Option(view.currentOption);
+    actions.addOption(newOption);
+    optionInput.value = '';
+    optionInput.focus();
+    view.currentOption = null;
+}
 
 export default function SecondScreen() {
     return {
@@ -10,6 +20,7 @@ export default function SecondScreen() {
         },
         currentOption: null,
         view: ({ attrs: { state, actions } }) => {
+
             return m('#second-screen', [
                 m('h2.lhs.mb3', 'List Solutions/Options'),
                 m('div.r', [
@@ -26,13 +37,14 @@ export default function SecondScreen() {
                             },
                             onkeydown: (e) => {
                                 if (e.key == 'Enter' && this.currentOption && this.currentOption.length) {
-                                    const newOption = new Option(this.currentOption);
-                                    actions.addOption(newOption);
-                                    e.target.value = '';
-                                    this.currentOption = null;
+                                    addNewOption(this, actions);
                                 }
                             }
                         }),
+                        m(Button, {
+                            onclick: () => addNewOption(this, actions),
+                            classNames: 'mh2 mh0-m mh0-s mv2-s'
+                        }, 'Add Option'),
                         m('p.sc', '(click next or press enter/return)')
                     ]),
                     m('div.c6.c6-m.vh7-m.vh5-s', [
